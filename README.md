@@ -47,7 +47,7 @@ Follow these steps to set up and run the project locally:
 
    ```bash
 
-   cp .env.example .env|
+   cp .env.example .env
    php artisan key:generate
    ```
 
