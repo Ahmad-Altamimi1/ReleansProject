@@ -9,10 +9,10 @@ Welcome to the Releans Project! This repository houses a dynamic web application
 - **Feature 1: Full Notification**  
   This feature provides comprehensive notification functionality, including real-time updates, customizable alerts, and user-friendly notifications. Stay informed about important events and changes within the application effortlessly
 - **Feature 2:** Stock Tracking
-- **Feature 2:** Order Fulfillment
-- **Feature 2:** Reporting
-- **Feature 2:** Product Catalog Management
-- **Feature 3:** Authentication and Authorization Use Passport
+- **Feature 3:** Order Fulfillment
+- **Feature 4:** Reporting
+- **Feature 5:** Product Catalog Management
+- **Feature 6:** Authentication and Authorization Use Passport
 
 ## Installation
 
