@@ -60,19 +60,14 @@ Follow these steps to set up and run the project locally:
 
 FRONTEND_URLS=http://localhost:3000
 
-```
-
-
-
-
 4. **Run migrations and seeders:**
 
-```
+````
 
 ```bash
 php artisan migrate:fresh --seed
 
-```
+````
 
 5. **Create Personal Access Client:**
    ```bash
