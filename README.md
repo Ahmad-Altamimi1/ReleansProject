@@ -50,7 +50,7 @@ Follow these steps to set up and run the project locally:
    php artisan key:generate
    ```
 
-- **Step 3: Configure Frontend URLs in your environment**
+4. **Configure Frontend URLs in your environment:**
 
 - **Add the following line to your `.env` file:**
 
@@ -60,20 +60,18 @@ Follow these steps to set up and run the project locally:
 
 FRONTEND_URLS=http://localhost:3000
 
-3. **Configure Frontend URLs in your environment:**
-
-4. **Run migrations and seeders:**
+5. **Run migrations and seeders:**
 
 ```bash
 php artisan migrate:fresh --seed
 
 ```
 
-5. **Create Personal Access Client:**
+6. **Create Personal Access Client:**
    ```bash
    php artisan passport:client --personal
    ```
-6. **Start the development servers:**
+7. **Start the development servers:**
 
    - **Frontend:** Run the React development server.
 
@@ -89,5 +87,5 @@ php artisan migrate:fresh --seed
    php artisan serve
    ```
 
-7. **Access the application:**
+8. **Access the application:**
    Open your browser and navigate to `http://localhost:3000` to view the application.
