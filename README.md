@@ -53,7 +53,7 @@ Follow these steps to set up and run the project locally:
 4. **generated the encryption keys :**
 
 ```bash
-php artisan passport:install
+php artisan passport:keys
 ```
 
 5. **Configure Frontend URLs in your environment:**
