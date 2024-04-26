@@ -24,6 +24,9 @@ use App\Models\OrderItem;
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/r', function () {
+    return view('dashboard');
+});
 
 Route::get('/', [ColectionData::class, 'collectionDatapdf']);
 Route::middleware('auth')->group(function () {

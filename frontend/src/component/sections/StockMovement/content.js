@@ -18,7 +18,7 @@ const fetchMovements = async () => {
 };
 
 export default function () {
-  const [editStock, seteditStock] = useState({});
+  const [editStock, seteditStock] = useState(null);
   const [deletePage, setdeletePage] = useState(false);
   const {
     data: Movements,

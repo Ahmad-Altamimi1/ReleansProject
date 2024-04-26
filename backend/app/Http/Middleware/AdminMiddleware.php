@@ -20,7 +20,7 @@ class AdminMiddleware
     {
         // Check if the user is authenticated
         if (Auth::check()) {
-            if (Auth::user()->role === 'admin') {
+            if (Auth::guard('admin')->check()) {
                 return $next($request);
             }
         }

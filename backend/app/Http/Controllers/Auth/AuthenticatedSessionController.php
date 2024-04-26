@@ -69,7 +69,7 @@ class AuthenticatedSessionController extends Controller
             $token = $user->createToken('app')->accessToken;
 
 
-            return response()->json(['token' => $token, 'user' => $user], 200);
+            return response()->json(['token' => $token, 'user' => $user, 'scope' => $user->role], 200);
         }
 
         return response()->json(
@@ -94,7 +94,18 @@ class AuthenticatedSessionController extends Controller
             $request->authenticate();
             $user = Auth::user();
 
-            $token = $user->createToken('app')->accessToken;
+            $scopes = [];
+
+            // Assign scopes based on user's role
+            if ($user->role === 'regular') {
+                $scopes = ['regular'];
+            } elseif ($user->role === 'manager') {
+                $scopes = ['manager'];
+            } elseif ($user->role === 'admin') {
+                $scopes = ['admin'];
+            }
+
+            $token = $user->createToken('app', $scopes)->accessToken;
 
             return response()->json(['token' => $token, 'user' => $user], 200);
         } else {

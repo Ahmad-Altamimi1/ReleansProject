@@ -412,9 +412,9 @@ export default function () {
               <Link className="dropdown-item" to="javascript:void(0)">
                 Settings
               </Link>
-              <Link className="dropdown-item" to="javascript:void(0)">
+              {/* <Link className="dropdown-item" to="javascript:void(0)">
                 Logout
-              </Link>
+              </Link> */}
             </div>
           </li>
         </ul>

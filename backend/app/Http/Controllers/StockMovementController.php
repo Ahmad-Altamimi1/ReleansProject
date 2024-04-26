@@ -13,6 +13,13 @@ use Carbon\Carbon;
 
 class StockMovementController extends Controller
 {
+
+    public function __construct()
+    {
+
+        // $this->middleware('scopes:admin')->only(['store', 'update', 'destroy', 'show']);
+        $this->middleware(['scopes:manager', 'scopes:regular'])->except('index');
+    }
     /**
      * Display a listing of the resource.
      */

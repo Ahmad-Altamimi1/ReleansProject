@@ -46,7 +46,6 @@ class OrderController extends Controller
         $order = Order::create([
             'user_id' => Auth::user()->id,
             'total_price' => 0,
-            'status' => 'pending',
         ]);
         $totalPrice = 0;
         foreach ($request->request as $item) {

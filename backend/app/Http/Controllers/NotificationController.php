@@ -16,17 +16,15 @@ class NotificationController extends Controller
     public function allnotification()
     {
         $userRole = Auth::user()->role;
+        $userID = Auth::user()->id;
 
         $notifications = Notification::with(['user:id,name', 'product:id,name'])
-            ->when($userRole !== 'admin', function ($query) use ($userRole) {
-                return $query->where('receiver', $userRole);
+            ->when($userRole !== 'admin', function ($query) use ($userRole, $userID) {
+                return $query->where('receiver', $userRole)->orWhere('userId', $userID);
             })
-            ->get()
-            ->map(function ($notification) {
+            ->get()->map(function ($notification) {
                 if (isset($notification->product->name)) {
                     $Name = $notification->product->name;
-                } else {
-                    $Name = 'Ahmad Altamimi';
                 }
                 return [
                     'userName' => $notification->user->name,
@@ -43,7 +41,10 @@ class NotificationController extends Controller
     {
         $user = Auth::user();
         $UserRole = Auth::user()->role;
-        $notifications = Notification::where('receiver', '=', $UserRole)->with(['user:id,name', 'product:id,name'])
+        $userID = Auth::user()->id;
+        $notifications = Notification::where('receiver', $UserRole)
+            ->orWhere('userId', $userID)
+            ->with(['user:id,name', 'product:id,name'])
             ->orderBy('id', 'desc')
             ->limit(10)
             ->get()

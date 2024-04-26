@@ -85,10 +85,11 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $request->validate([
-            'name' => 'string',
+            'name' => 'required|string',
             'description' => 'nullable|string',
-            'price' => 'numeric',
-            'quantity' => 'integer',
+            'price' => 'required|numeric',
+            'MinimumNumberAllowedInstock' => 'required|numeric',
+            'quantity' => 'required|integer',
         ]);
 
         $product->update($request->all());

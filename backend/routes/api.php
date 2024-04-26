@@ -48,13 +48,12 @@ Route::group([
     Route::apiResource('orderItem', OrderItemController::class);
 });
 
-Route::group(['prefix' => 'oauth'], function () {
-    Route::post('/token', [
-        'uses' => '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken',
-        'middleware' => 'throttle',
-    ]);
-});
-
+// Route::group(['prefix' => 'oauth'], function () {
+//     Route::post('/token', [
+//         'uses' => '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken',
+//         'middleware' => 'throttle',
+//     ]);
+// });
 // Auth 
 Route::get('/get-csrf-token', function () {
     return response()->json(['token' => csrf_token()]);

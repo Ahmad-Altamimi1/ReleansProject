@@ -21,7 +21,14 @@ import Users from "./component/pages/users";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const queryClient = new QueryClient();
 const accessToken = localStorage.getItem("token") !== null;
-
+const NavigateWhenOpenLogin = () => {
+  if (accessToken) {
+    window.history.back();
+    return null;
+  } else {
+    return <Login />;
+  }
+};
 root.render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
@@ -48,7 +55,8 @@ root.render(
             element={accessToken ? <Notification /> : <Navigate to="/login" />}
           />
 
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<NavigateWhenOpenLogin />} />
+
           <Route
             path="/registration"
             element={accessToken ? <Registration /> : <Navigate to="/login" />}
