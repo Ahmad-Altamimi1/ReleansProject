@@ -47,16 +47,34 @@ Follow these steps to set up and run the project locally:
 
    ```bash
 
-   cp .env.example .env
-   php artisan key:generate
    ```
 
+cp .env.example .env
+
+php artisan key:generate
+
+# Step 3: Configure Frontend URLs in your environment
+
+# Add the following line to your `.env` file:
+
+# FRONTEND_URLS="Your front end URL"
+
+# For example in this case:
+
+```bash
+
+FRONTEND_URLS=http://localhost:3000
+
+```
+
 4. **Run migrations and seeders:**
+
+   ````
 
    ```bash
    php artisan migrate:fresh --seed
 
-   ```
+   ````
 
 5. **Create Personal Access Client:**
    ```bash
