@@ -67,11 +67,17 @@ php artisan migrate:fresh --seed
 
 ```
 
-6. **Create Personal Access Client:**
+6. **generated the encryption keys :**
+
+```bash
+php artisan passport:install
+```
+
+7. **Create Personal Access Client:**
    ```bash
    php artisan passport:client --personal
    ```
-7. **Start the development servers:**
+8. **Start the development servers:**
 
    - **Frontend:** Run the React development server.
 
@@ -87,5 +93,5 @@ php artisan migrate:fresh --seed
    php artisan serve
    ```
 
-8. **Access the application:**
+9. **Access the application:**
    Open your browser and navigate to `http://localhost:3000` to view the application.
