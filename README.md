@@ -50,7 +50,13 @@ Follow these steps to set up and run the project locally:
    php artisan key:generate
    ```
 
-4. **Configure Frontend URLs in your environment:**
+4. **generated the encryption keys :**
+
+```bash
+php artisan passport:install
+```
+
+5. **Configure Frontend URLs in your environment:**
 
 - **Add the following line to your `.env` file:**
 
@@ -60,17 +66,11 @@ Follow these steps to set up and run the project locally:
 
 FRONTEND_URLS=http://localhost:3000
 
-5. **Run migrations and seeders:**
+6. **Run migrations and seeders:**
 
 ```bash
 php artisan migrate:fresh --seed
 
-```
-
-6. **generated the encryption keys :**
-
-```bash
-php artisan passport:install
 ```
 
 7. **Create Personal Access Client:**
