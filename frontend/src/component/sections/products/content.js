@@ -39,10 +39,8 @@ export default function () {
   };
   if (isLoading)
     return (
-      <div>
-        <Box sx={{ width: "100%" }} height={208} style={{ marginTop: "60px" }}>
-          <Skeleton animation="wave" height={"100vh"} />
-        </Box>
+      <div className="page-wrapper">
+        <div className="loader"></div>
       </div>
     );
   if (error) return <div>Error: {error.message}</div>;
@@ -60,7 +58,7 @@ export default function () {
                   <h3 className="page-title">Products</h3>
                   <ul className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <Link to="index.php">Dashboard</Link>
+                      <Link to="/">Dashboard</Link>
                     </li>
                     <li className="breadcrumb-item active">Products</li>
                   </ul>

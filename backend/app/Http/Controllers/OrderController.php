@@ -11,6 +11,7 @@ use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -39,10 +40,15 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $rules = [
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
-        ]);
+        ];
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
         $order = Order::create([
             'user_id' => Auth::user()->id,
             'total_price' => 0,
@@ -92,12 +98,12 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
+        $status = $request[0];
         $orderItems = OrderItem::with('product')->where('orderId', $order->id)->get();
         $lowQuantityProducts = [];
         $productAvailability = true;
-
         if ($order->status == 'pending') {
-            if ($request[0] == 'fulfilled' || $request[0] == 'in progress') {
+            if ($status == 'fulfilled' || $status == 'in progress') {
                 foreach ($orderItems as $item) {
                     if ($item->product->quantity < $item->quantity) {
                         $productAvailability = false;
@@ -113,7 +119,7 @@ class OrderController extends Controller
                             $lowQuantityProducts[] = $product->id;
                         }
                     }
-                    $order->status = $request[0];
+                    $order->status = $status;
                     $order->update();
                     if (count($lowQuantityProducts)) {
                         $this->sendNotification($lowQuantityProducts);
@@ -124,8 +130,8 @@ class OrderController extends Controller
 
                     return response()->json(['message' => 'Order itme  quantity is more than the stock'], 205);
                 }
-            } elseif ($request[0] == 'rejected') {
-                $order->status = $request[0];
+            } elseif ($status == 'rejected') {
+                $order->status = $status;
                 $order->update();
                 return response()->json(['message' => 'Order status updated successfully', 'lowQuantityProducts' => $lowQuantityProducts], 201);
             } else {
@@ -133,7 +139,7 @@ class OrderController extends Controller
             }
         }
         if ($order->status == 'rejected') {
-            if ($request[0] == 'fulfilled' || $request[0] == 'in progress') {
+            if ($status == 'fulfilled' || $status == 'in progress') {
                 foreach ($orderItems as $item) {
 
                     if ($item->product->quantity < $item->quantity) {
@@ -151,7 +157,7 @@ class OrderController extends Controller
                         }
                     }
 
-                    $order->status = $request[0];
+                    $order->status = $status;
                     $order->update();
                     if (count($lowQuantityProducts)) {
                         $this->sendNotification($lowQuantityProducts);
@@ -160,8 +166,8 @@ class OrderController extends Controller
                 } else {
                     return response()->json(['message' => 'Order itames   quantity is more than the stock'], 205);
                 }
-            } elseif ($request[0] == 'pending') {
-                $order->status = $request[0];
+            } elseif ($status == 'pending') {
+                $order->status = $status;
                 $order->update();
                 return response()->json(['message' => 'Order status updated successfully', 'lowQuantityProducts' => $lowQuantityProducts], 201);
             } else {
@@ -169,7 +175,7 @@ class OrderController extends Controller
             }
         }
         if ($order->status == 'in progress') {
-            if ($request[0] == 'pending' || $request[0] == 'rejected') {
+            if ($status == 'pending' || $status == 'rejected') {
                 foreach ($orderItems as $item) {
                     $product = $item->product;
                     $product->quantity += $item->quantity;
@@ -178,14 +184,14 @@ class OrderController extends Controller
                         $lowQuantityProducts[] = $item->product->id;
                     }
                 }
-                $order->status = $request[0];
+                $order->status = $status;
                 $order->update();
                 if (count($lowQuantityProducts)) {
                     $this->sendNotification($lowQuantityProducts);
                 }
                 return response()->json(['message' => 'Order status updated successfully', 'lowQuantityProducts' => $lowQuantityProducts], 201);
-            } elseif ($request[0] == 'fulfilled') {
-                $order->status = $request[0];
+            } elseif ($status == 'fulfilled') {
+                $order->status = $status;
                 $order->update();
                 return response()->json(['message' => 'Order status updated successfully', 'lowQuantityProducts' => $lowQuantityProducts], 201);
             } else {
@@ -193,7 +199,7 @@ class OrderController extends Controller
             }
         }
         if ($order->status == 'fulfilled') {
-            if ($request[0] == 'pending' || $request[0] == 'rejected') {
+            if ($status == 'pending' || $status == 'rejected') {
                 foreach ($orderItems as $item) {
                     $product = $item->product;
                     $product->quantity += $item->quantity;
@@ -202,15 +208,15 @@ class OrderController extends Controller
                         $lowQuantityProducts[] = $item->id;
                     }
                 }
-                $order->status = $request[0];
+                $order->status = $status;
                 $order->update();
                 if (count($lowQuantityProducts)) {
                     $this->sendNotification($lowQuantityProducts);
                 }
 
                 return response()->json(['message' => 'Order status updated successfully', 'lowQuantityProducts' => $lowQuantityProducts], 201);
-            } elseif ($request[0] == 'in progress') {
-                $order->status = $request[0];
+            } elseif ($status == 'in progress') {
+                $order->status = $status;
                 $order->update();
                 return response()->json(['message' => 'Order status updated successfully', 'lowQuantityProducts' => $lowQuantityProducts], 201);
             } else {

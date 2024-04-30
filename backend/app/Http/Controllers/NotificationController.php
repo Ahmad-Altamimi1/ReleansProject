@@ -21,10 +21,12 @@ class NotificationController extends Controller
         $notifications = Notification::with(['user:id,name', 'product:id,name'])
             ->when($userRole !== 'admin', function ($query) use ($userRole, $userID) {
                 return $query->where('receiver', $userRole)->orWhere('userId', $userID);
-            })
+            })->orderBy('created_at', 'desc')
             ->get()->map(function ($notification) {
                 if (isset($notification->product->name)) {
                     $Name = $notification->product->name;
+                } else {
+                    $Name = 'Ahmad Altamimi';
                 }
                 return [
                     'userName' => $notification->user->name,
@@ -84,8 +86,22 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'message' => 'required|string',
+            'receiver' => 'required|in:admin,manager,regular',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        };
+
         $userId = Auth::user()->id;
         $request['userId'] = $userId;
+        if (!$request['receiver']) {
+            $request['receiver'] = 'admin';
+        }
         $notification = Notification::create($request->all());
         return response()->json([
             'message' => 'Notification created successfully',
@@ -97,9 +113,14 @@ class NotificationController extends Controller
      */
     public function show($id)
     {
-        $notification = Notification::findOrfail($id);
-        return response()->json(['notification' => $notification], 200);
+        try {
+            $notification = Notification::findOrFail($id);
+            return response()->json(['notification' => $notification], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['error' => 'This Notification not found'], 404);
+        }
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -114,13 +135,11 @@ class NotificationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Define validation rules
         $rules = [
             'message' => 'required|string',
             'receiver' => 'required|in:admin,manager,regular',
         ];
 
-        // Validate the incoming request data
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
@@ -128,7 +147,6 @@ class NotificationController extends Controller
         }
 
         try {
-            // Find the notification by ID
             $notification = Notification::findOrFail($id);
 
             $notification->update([
@@ -151,9 +169,13 @@ class NotificationController extends Controller
      */
     public function destroy($id)
     {
-        $notification = Notification::findOrFail($id);
-        $notification->delete();
+        try {
+            $notification = Notification::findOrFail($id);
+            $notification->delete();
 
-        return response()->json(['message' => 'Notification deleted successfully'], 200);
+            return response()->json(['message' => 'Notification deleted successfully'], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['error' => 'This Notification not found'], 404);
+        }
     }
 }

@@ -41,7 +41,7 @@ const fetchProducts = async () => {
   }
 };
 const AddMovementForm = ({ onEditComplete }) => {
-  const [warning, setwarning] = useState("");
+  const [warning, setwarning] = useState("Submit");
 
   const dispatch = useDispatch();
   const countofNoti = useSelector((state) => state.NotiCount);
@@ -103,10 +103,18 @@ const AddMovementForm = ({ onEditComplete }) => {
       document.querySelector("#add_Movment").click();
       // onEditComplete();
     } catch (error) {
-      console.error("Error adding Movement:", error.message);
+      console.error("Error adding Movement:", error.response.data.error);
+      setwarning(error.response.data.error);
+      const submitButton = document.querySelector(".add_Movement");
+      submitButton.disabled = true;
     }
   };
-  if (isLoading) return <div className="loader"></div>;
+  if (isLoading)
+    return (
+      <div className="page-wrapper">
+        <div className="loader"></div>
+      </div>
+    );
   if (error) return <div>Error: {error.message}</div>;
   return (
     <div id="add_Movment" className="modal custom-modal fade" role="dialog">
@@ -174,16 +182,16 @@ const AddMovementForm = ({ onEditComplete }) => {
                   value={formData.quantity}
                   onChange={handleChange}
                 />
-                <div>{warning}</div>
+                {/* <div>{warning}</div> */}
               </div>
 
               <div className="submit-section">
                 <button
                   type="submit"
                   name="add_Movement"
-                  className="btn btn-primary submit-btn"
+                  className="btn btn-primary add_Movement submit-btn"
                 >
-                  Submit
+                  {warning}
                 </button>
               </div>
             </form>

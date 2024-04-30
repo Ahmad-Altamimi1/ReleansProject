@@ -29,6 +29,14 @@ const NavigateWhenOpenLogin = () => {
     return <Login />;
   }
 };
+const NavigateWhenOpenRegister = () => {
+  if (accessToken) {
+    window.history.back();
+    return null;
+  } else {
+    return <Registration />;
+  }
+};
 root.render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
@@ -57,10 +65,7 @@ root.render(
 
           <Route path="/login" element={<NavigateWhenOpenLogin />} />
 
-          <Route
-            path="/registration"
-            element={accessToken ? <Registration /> : <Navigate to="/login" />}
-          />
+          <Route path="/registration" element={<NavigateWhenOpenRegister />} />
           <Route
             path={"/products/:id"}
             element={accessToken ? <SingleProduct /> : <Navigate to="/login" />}

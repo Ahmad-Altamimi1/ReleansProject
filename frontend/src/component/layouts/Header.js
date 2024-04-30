@@ -11,11 +11,18 @@ import Skeleton from "@mui/material/Skeleton";
 import { useNavigate } from "react-router-dom";
 
 export default function () {
+  const [page, setpage] = useState("Dashboard");
+  useEffect(() => {
+    if (window.location.href.split("/").pop().trim() != "") {
+      setpage(window.location.href.split("/").pop());
+    }
+  }, []);
   const dispatch = useDispatch();
   const countofNoti = useSelector((state) => state.NotiCount);
   const user = useSelector((state) => state.userData);
   const navigate = useNavigate();
   let imageUrl = "";
+
   try {
     if (user) {
       const userData = JSON.parse(user);
@@ -90,7 +97,10 @@ export default function () {
 
   if (isLoading)
     return (
-      <Box sx={{ width: "100%" }} style={{ marginTop: "-60px" }}>
+      <Box
+        sx={{ width: "100%" }}
+        style={{ marginTop: "-60px", marginBottom: "-88PX" }}
+      >
         <Skeleton animation="wave" height={148} />
       </Box>
     );
@@ -109,14 +119,14 @@ export default function () {
       />
       <meta name="author" content="Dreamguys - Bootstrap Admin Template" />
       <meta name="robots" content="noindex, nofollow" />
-      <title>Clients - HRMS admin template</title>
+      <title>{page}</title>
 
       <div className="main-wrapper"></div>
 
       <div className="header">
         {/* Logo */}
         <div className="header-left">
-          <Link to="index.php" className="logo">
+          <Link to="/" className="logo">
             <img src="assets/img/logo.png" width={40} height={40} alt="" />
           </Link>
         </div>
@@ -130,9 +140,9 @@ export default function () {
           {numberOfNotification == 0 && (
             <MakeNotiOpen
               isOpen={
-                numberOfNotification !==
+                countofNoti !==
                   localStorage.getItem("previousNotificationCount") ||
-                numberOfNotification === 0
+                countofNoti === 0
               }
             />
           )}
@@ -169,8 +179,7 @@ export default function () {
           {/* Notifications */}
           <li className="nav-item dropdown">
             <Link
-              to="javascript:void(0)"
-              className="dropdown-toggle nav-link"
+              className=" nav-link"
               data-toggle="dropdown"
               id="MakeNotiOpen"
               onClick={(e) => {
@@ -180,7 +189,11 @@ export default function () {
               }}
             >
               <i className="fa fa-bell-o" />
-              <span className="badge badge-pill">{countofNoti}</span>
+              {countofNoti === 0 ? null : (
+                <span className="badge badge-pill notificationpill">
+                  {countofNoti}
+                </span>
+              )}
             </Link>
             <div className="dropdown-menu notifications">
               <div className="topnav-dropdown-header">
@@ -237,7 +250,7 @@ export default function () {
                 </ul>
               </div>
               <div className="topnav-dropdown-footer">
-                <Link to="javascript:void(0)">View all Notifications</Link>
+                <Link to="/AllNotification">View all Notifications</Link>
               </div>
             </div>
           </li>

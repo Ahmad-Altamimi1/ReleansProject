@@ -17,8 +17,6 @@ const fetchCollection = async () => {
 export default function () {
   const user = useSelector((state) => state.userData);
 
-  const [editStock, seteditStock] = useState({});
-  const [deletePage, setdeletePage] = useState(false);
   const {
     data: collectionData,
     isLoading,
@@ -28,8 +26,12 @@ export default function () {
   const handleRefetch = () => {
     refetch(collectionData);
   };
-  console.log(collectionData);
-  if (isLoading) return <div className="loader"></div>;
+  if (isLoading)
+    return (
+      <div className="page-wrapper">
+        <div className="loader"></div>
+      </div>
+    );
   if (error) return <div>Error: {error.message}</div>;
 
   return (

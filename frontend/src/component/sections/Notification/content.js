@@ -61,7 +61,7 @@ export default function () {
                   <h3 className="page-title">Notifications</h3>
                   <ul className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <Link to="index.php">Dashboard</Link>
+                      <Link to="/">Dashboard</Link>
                     </li>
                     <li className="breadcrumb-item active">Notifications</li>
                   </ul>
@@ -84,7 +84,7 @@ export default function () {
             <div className="row">
               <div className="col-md-12">
                 <div className="table-responsive">
-                  <table className="table table-striped custom-table mb-0 datatable">
+                  <table className="table  mb-0 ">
                     <thead>
                       <tr>
                         <th>Send By</th>

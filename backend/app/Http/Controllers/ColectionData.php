@@ -100,4 +100,9 @@ class ColectionData extends Controller
             'totalPrice'
         ));
     }
+
+    protected function Unauthorized()
+    {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
 }

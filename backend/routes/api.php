@@ -33,6 +33,10 @@ use App\Http\Controllers\UserController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::post('login', [AuthenticatedSessionController::class, 'store']);
+Route::post('registration', [AuthenticatedSessionController::class, 'registration']);
+Route::get('Unauthorized', [ColectionData::class, 'Unauthorized'])->name('Unauthorized');
+
 Route::group([
     "middleware" => ["auth:api"]
 ], function () {
@@ -46,15 +50,10 @@ Route::group([
     Route::apiResource('orders', OrderController::class);
     Route::apiResource('users', UserController::class);
     Route::apiResource('orderItem', OrderItemController::class);
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
 });
 
-// Route::group(['prefix' => 'oauth'], function () {
-//     Route::post('/token', [
-//         'uses' => '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken',
-//         'middleware' => 'throttle',
-//     ]);
-// });
-// Auth 
 Route::get('/get-csrf-token', function () {
     return response()->json(['token' => csrf_token()]);
 })->middleware('cors');
@@ -62,16 +61,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('register', [RegisteredUserController::class, 'create'])
-    ->name('register');
-
-Route::post('register', [RegisteredUserController::class, 'store']);
 
 
-Route::post('/oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
 
-Route::post('login', [AuthenticatedSessionController::class, 'store']);
-Route::post('registration', [AuthenticatedSessionController::class, 'registration']);
+// Route::post('/oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
+
+
 
 Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
     ->name('password.request');
@@ -104,9 +99,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
-
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
 });
 
 

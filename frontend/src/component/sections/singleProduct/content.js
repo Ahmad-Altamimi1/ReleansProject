@@ -47,7 +47,12 @@ export default function () {
   const handleRefetch = () => {
     refetch();
   };
-  if (isLoading) return <div className="loader"></div>;
+  if (isLoading)
+    return (
+      <div className="page-wrapper">
+        <div className="loader"></div>
+      </div>
+    );
   if (error) return <div>Error: {error.message}</div>;
 
   console.log(singleProduct);
@@ -71,7 +76,7 @@ export default function () {
                 <h3 className="page-title">product</h3>
                 <ul className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="index.php">Dashboard</a>
+                    <a href="/">Dashboard</a>
                   </li>
                   <li className="breadcrumb-item active">product</li>
                 </ul>

@@ -41,13 +41,13 @@ const AddNotificationForm = ({ onEditComplete }) => {
 
       const response = await axios.post("/notifications", formData);
       dispatch(SendNotiToUpdateNumber(parseInt(countofNoti) + 1));
-      console.log(response.data);
       const Username = response.data.id;
-      SendNotification(formData, Username, "addMove", formData, Username);
+      onEditComplete();
+      // SendNotification(formData, Username, "addMove", formData, Username);
       console.log("Notification added successfully");
       setFormData({
         message: "",
-        receiver: "",
+        receiver: "regular",
       });
       document.querySelector("#add_Noti").click();
     } catch (error) {

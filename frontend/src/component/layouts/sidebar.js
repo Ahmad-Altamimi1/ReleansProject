@@ -41,7 +41,7 @@ export default function () {
 
               <li className="">
                 <Link to="/" className={page && page === "" ? "noti-dot" : ""}>
-                  <i className="la la-user" /> <span> Dashboard</span>
+                  <i className="la la-home" /> <span> Dashboard</span>
                 </Link>
               </li>
 
@@ -58,7 +58,7 @@ export default function () {
                   to="/products"
                   className={page && page === "products" ? "noti-dot" : ""}
                 >
-                  <i className="la la-user" /> <span> products</span>
+                  <i className="la la-foursquare" /> <span> products</span>
                 </Link>
               </li>
               <li className="">
@@ -66,7 +66,7 @@ export default function () {
                   to="/users"
                   className={page && page === "users" ? "noti-dot" : ""}
                 >
-                  <i className="la la-user" /> <span> Users</span>
+                  <i className="la la-users" /> <span> Users</span>
                 </Link>
               </li>
               <li className="">
@@ -74,7 +74,7 @@ export default function () {
                   to="/orders"
                   className={page && page === "orders" ? "noti-dot" : ""}
                 >
-                  <i className="la la-user" /> <span> orders</span>
+                  <i className="fa fa-money" /> <span> orders</span>
                 </Link>
               </li>
               <li className="">
@@ -84,7 +84,7 @@ export default function () {
                     page && page === "stockMovements" ? "noti-dot" : ""
                   }
                 >
-                  <i className="la la-user" /> <span> Stock Movements</span>
+                  <i className="la la-expand" /> <span> Stock Movements</span>
                 </Link>
               </li>
               <li className="">
@@ -94,12 +94,12 @@ export default function () {
                     page && page === "AllNotification" ? "noti-dot" : ""
                   }
                 >
-                  <i className="la la-user" /> <span> Notifications</span>
+                  <i className="fa fa-bell-o" /> <span> Notifications</span>
                 </Link>
               </li>
               <li>
                 <Link to="http://127.0.0.1:8000/api/download-sales-report">
-                  <i className="la la-users" /> <span>Sales Report</span>
+                  <i className="fa fa-file-pdf-o" /> <span>Sales Report</span>
                 </Link>
               </li>
 
@@ -109,7 +109,7 @@ export default function () {
                 }}
               >
                 <Link>
-                  <i className="la la-power-off" /> <span>Logout</span>
+                  <i className="fa fa-sign-out" /> <span>Logout</span>
                 </Link>
               </li>
             </ul>
